@@ -7,11 +7,11 @@ class LowPassFilter:
         """low pass filter using  hamming window"""
         self.cutoff=cutoff_hz
         self.sample_rate=sample_rate_hz
-        self.num_taps=num_taps
+        self.num_taps=numtaps
         self.taps=signal.firwin(
-            num_taps,cutoff_hz,fs=sample_rate_hz,window="hamming"
+            numtaps,cutoff_hz,fs=sample_rate_hz,window="hamming"
         )
-        self.zi=np.zeros(num_taps-1,dtype=np.complex64)
+        self.zi=np.zeros(numtaps-1,dtype=np.complex64)
     def filter(self, samples: np.ndarray) -> np.ndarray:
         """applies the low pass filter to the samples"""
         filtered,self.zi=signal.lfilter(self.taps,1.0,samples,zi=self.zi)
@@ -65,7 +65,7 @@ class AutomaticGainControl:
         peak=np.max(np.abs(audio))
         if peak>1e-6:
             desired_gain=self.target_level/peak
-            self.gain=0.95*self.gaim+0.05*min(desired_gain,self.max_gain)
+            self.gain=0.95*self.gain+0.05*min(desired_gain,self.max_gain)
         return np.clip(audio*self.gain,-1.0,1.0)
 
 #feeling bored, so from next file onwards unfortunately im vibecoding
